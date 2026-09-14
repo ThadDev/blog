@@ -10,6 +10,19 @@
     <p>
         Published {{ post.publish }} by {{ post.author }}
     </p>
+    <form method="POST" action="{% url 'post:toggle_like' post.id %}">
+    {% csrf_token %}
+
+    <button type="submit">
+        {% if user_has_liked %}
+            💔 Unlike
+        {% else %}
+            ❤️ Like
+        {% endif %}
+
+        {{ post.likes.count }}
+    </button>
+</form>
 
     {{ post.content|linebreaks }}
 {% endblock %}
