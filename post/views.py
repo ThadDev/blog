@@ -1,8 +1,11 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger
 from .models import Post,Like
-from .form import PostForm
+from .form import PostForm,SharePostForm
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.core.validators import validate_email
+from django.urls import reverse
 # Create your views here.
 
 def post_list(request):
@@ -49,21 +52,77 @@ def post_create(request):
       form = PostForm
       return render(request,"post/post_create.html",{"form":form})
 
-@login_required
+
 def toggle_like(request, id):
     post = get_object_or_404(Post, id=id)
 
+    if not request.session.session_key:
+        request.session.create()
+
+    session_key = request.session.session_key
+
     like = Like.objects.filter(
-        user=request.user,
-        post=post
+        post=post,
+        session_key=session_key
     ).first()
 
     if like:
         like.delete()
     else:
         Like.objects.create(
-            user=request.user,
-            post=post
+            post=post,
+            session_key=session_key
         )
 
     return redirect("post:post_detail", id=post.id)
+
+def share_post(request,id):
+    post = get_object_or_404(Post, id=id)
+
+    if request.method == "POST":
+        form = SharePostForm(request.POST)
+
+        if form.is_valid():
+            raw_emails = form.cleaned_data["emails"]
+
+            emails = [
+                email.strip()
+                for email in raw_emails.split(",")
+                if email.strip()
+            ]
+
+            valid_emails = []
+
+            for email in emails:
+                try:
+                    validate_email(email)
+                    valid_emails.append(email)
+                except ValidationError:
+                    pass
+
+            post_url = request.build_absolute_uri(
+                reverse("post:post_detail", args=[post.id])
+            )
+
+            send_mail(
+                subject=f"Check out this post: {post.title}",
+                message=f"""
+{form.cleaned_data["message"]}
+
+Read the post here:
+
+{post_url}
+""",
+                from_email=None,
+                recipient_list=valid_emails,
+            )
+
+            return redirect("post:post_detail", id=post.id)
+
+    else:
+        form = SharePostForm()
+
+    return render(request, "post/share.html", {
+        "form": form,
+        "post": post,
+    })

@@ -10,7 +10,13 @@
     <p>
         Published {{ post.publish }} by {{ post.author }}
     </p>
-    <form method="POST" action="{% url 'post:toggle_like' post.id %}">
+    <a href="{% url 'post:share_post' post.id %}">
+     <button style="background-color: aqua; padding: 7px 20px;border-radius: 20px; font-weight: bold;">
+        share ->
+     </button>
+    
+</a>
+    <form method="POST" action="{% url 'post:toggle_like' post.id %}" style="display: flex; gap: 8px;">
     {% csrf_token %}
 
     <button type="submit">

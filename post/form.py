@@ -13,3 +13,21 @@ class PostForm(forms.ModelForm):
     class Meta:
          model = Post
          fields =["title","content","author","status"]
+
+
+class SharePostForm(forms.Form):
+     message = forms.CharField(
+          label="message",
+          widget=forms.Textarea(attrs={
+               "rows":4,
+               "placeholder":"write a message...",
+          })
+     )
+
+     emails = forms.CharField(
+          label="input emails",
+          widget=forms.TextInput(attrs={
+               "placeholder":"johndoe@gmail.com,example@gmail.com",
+          }),
+          help_text="Separate multiple email addresses with commas."
+     )

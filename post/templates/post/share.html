@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="share-page">
+
+    <div class="share-container">
+
+        <h1>Share Post</h1>
+
+        <p class="post-title">
+            "{{ post.title }}"
+        </p>
+
+        <form method="POST" class="share-form">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="share-btn">
+                Share Post
+            </button>
+
+        </form>
+
+        <a
+            href="{% url 'post:post_detail' post.id %}"
+            class="share-back"
+        >
+            ← Back to post
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

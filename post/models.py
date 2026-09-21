@@ -37,27 +37,26 @@ class Post(models.Model):
         super().save(*args, **kwargs)
         
 class Like(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="likes"
-    )
-
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
         related_name="likes"
     )
 
+    session_key = models.CharField(
+    max_length=40,
+    null=True,
+    blank=True
+)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "post"],
-                name="unique_user_post_like"
+                fields=["post", "session_key"],
+                name="unique_session_post_like"
             )
         ]
 
     def __str__(self):
-        return f"{self.user.username} likes {self.post.title}"
+        return f"Like on {self.post.title}"
