@@ -631,3 +631,165 @@ input[type="submit"]:hover {
         font-size: 16px;
     }
 }
+
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login-page {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Header */
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.login-header p {
+    margin: 0;
+    color: #666;
+    font-size: 15px;
+}
+
+/* Form */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+    background: #fff;
+    color: #222;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #222;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Help text */
+
+.help-text {
+    color: #777;
+    font-size: 12px;
+}
+
+/* Errors */
+
+.form-errors,
+.field-error {
+    color: #c62828;
+    font-size: 13px;
+}
+
+.form-errors {
+    padding: 12px;
+    background: #fff1f1;
+    border: 1px solid #f0caca;
+    border-radius: 5px;
+}
+
+.field-error ul,
+.form-errors ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+/* Login button */
+
+.login-button {
+    width: 100%;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #222;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease,
+                transform 0.1s ease;
+}
+
+.login-button:hover {
+    background: #000;
+}
+
+.login-button:active {
+    transform: translateY(1px);
+}
+
+/* Footer */
+
+.login-footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.login-footer p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.login-footer a {
+    color: #222;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+    .login-page {
+        padding: 30px 16px;
+    }
+
+    .login-header h1 {
+        font-size: 28px;
+    }
+}

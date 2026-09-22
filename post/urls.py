@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import post_list, post_detail, post_create,toggle_like,share_post
+from .views import post_list, post_detail, post_create,toggle_like,share_post,login,user_detail
 
 app_name = "post"
 
@@ -9,5 +9,7 @@ urlpatterns = [
     path("create", post_create, name="post_create"),
     path("<int:id>/like/", toggle_like, name="toggle_like"),
     path("<int:id>/share/", share_post, name="share_post"),
+    path("login/",login,name="login"),
+    path("user/<int:id>/",user_detail, name="user_detail")
 ]
 

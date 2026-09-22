@@ -1,11 +1,14 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator, PageNotAnInteger
 from .models import Post,Like
-from .form import PostForm,SharePostForm
+from django.contrib.auth import authenticate, get_user_model,login,logout
+from django.http import HttpResponse
+from ..accounts.form import PostForm,SharePostForm,LoginForm
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.urls import reverse
+from django.contrib.auth.models import User
 # Create your views here.
 
 def post_list(request):
@@ -126,3 +129,13 @@ Read the post here:
         "form": form,
         "post": post,
     })
+
+def user_detail(request, id):
+    user = get_object_or_404(User,id=id)
+    return render(request,"post/user_detail.html",{"user":user})
+
+
+
+
+def Logout(request):
+     ...

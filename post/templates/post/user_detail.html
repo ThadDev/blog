@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }} - Profile{% endblock %}
+
+{% block content %}
+
+<div class="profile-page">
+
+    <div class="profile-container">
+
+        <!-- Profile Header -->
+        <div class="profile-header">
+
+            <div class="profile-avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <div class="profile-info">
+                <h1>{{ user.username }}</h1>
+
+                {% if user.first_name or user.last_name %}
+                    <p class="full-name">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </p>
+                {% endif %}
+
+                <p class="member-since">
+                    Member since {{ user.date_joined|date:"F Y" }}
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Account Information -->
+        <div class="profile-section">
+
+            <h2>Account Information</h2>
+
+            <div class="info-list">
+
+                <div class="info-item">
+                    <span class="info-label">Username</span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">{{ user.email|default:"Not provided" }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">First name</span>
+                    <span class="info-value">
+                        {{ user.first_name|default:"Not provided" }}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Last name</span>
+                    <span class="info-value">
+                        {{ user.last_name|default:"Not provided" }}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Date joined</span>
+                    <span class="info-value">
+                        {{ user.date_joined|date:"F j, Y" }}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Last login</span>
+                    <span class="info-value">
+                        {% if user.last_login %}
+                            {{ user.last_login|date:"F j, Y, g:i A" }}
+                        {% else %}
+                            Never
+                        {% endif %}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Account Status -->
+        <div class="profile-section">
+
+            <h2>Account Status</h2>
+
+            <div class="status-list">
+
+                <div class="status-item">
+                    <span>Account</span>
+
+                    {% if user.is_active %}
+                        <span class="status active">Active</span>
+                    {% else %}
+                        <span class="status inactive">Inactive</span>
+                    {% endif %}
+                </div>
+
+                <div class="status-item">
+                    <span>Staff access</span>
+
+                    {% if user.is_staff %}
+                        <span class="status active">Staff</span>
+                    {% else %}
+                        <span class="status inactive">Regular User</span>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Actions -->
+        <div class="profile-actions">
+
+            {% if request.user.id == user.id %}
+                <a href="#" class="profile-button">
+                    Edit Profile
+                </a>
+            {% endif %}
+
+            <a href="{% url 'login' %}" class="profile-button secondary">
+                Back to Login
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

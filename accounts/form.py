@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from ..post.models import Post
 
 
 # class PostForm(forms.forms):
@@ -31,3 +31,6 @@ class SharePostForm(forms.Form):
           }),
           help_text="Separate multiple email addresses with commas."
      )
+class LoginForm(forms.Form):
+     username = forms.CharField(required=True,help_text="Please enter your username")
+     password = forms.CharField(widget=forms.PasswordInput)
