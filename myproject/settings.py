@@ -53,6 +53,20 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'myproject.urls'
 
+# email config
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "thaddeusugwu2007@gmail.com"
+EMAIL_HOST_PASSWORD = "vckowrfnjcyiazie"
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# templates
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,7 +95,6 @@ DATABASES = {
     }
 }
 # session config
-SESSION_ENGINE= ""
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

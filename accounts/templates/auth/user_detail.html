@@ -1,0 +1,81 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="user-detail-page">
+
+    <div class="user-detail-container">
+
+        <div class="user-detail-header">
+            <div class="user-avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <div>
+                <h1>{{ user.username }}</h1>
+                <p>Welcome to your profile.</p>
+            </div>
+        </div>
+
+
+        <div class="user-info">
+
+            <div class="user-info-row">
+                <span class="info-label">Username</span>
+                <span class="info-value">
+                    {{ user.username }}
+                </span>
+            </div>
+
+            <div class="user-info-row">
+                <span class="info-label">Email</span>
+                <span class="info-value">
+                    {{ user.email|default:"No email provided" }}
+                </span>
+            </div>
+
+            <div class="user-info-row">
+                <span class="info-label">First name</span>
+                <span class="info-value">
+                    {{ user.first_name|default:"Not provided" }}
+                </span>
+            </div>
+
+            <div class="user-info-row">
+                <span class="info-label">Last name</span>
+                <span class="info-value">
+                    {{ user.last_name|default:"Not provided" }}
+                </span>
+            </div>
+
+            <div class="user-info-row">
+                <span class="info-label">Date joined</span>
+                <span class="info-value">
+                    {{ user.date_joined|date:"F j, Y" }}
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="user-detail-actions">
+            <a href="{% url 'post:post_list' %}" class="profile-button secondary">
+                Back to Posts
+            </a>
+
+            <form method="POST" action="{% url 'post:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="profile-button logout">
+                    Logout
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

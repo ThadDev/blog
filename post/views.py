@@ -3,12 +3,12 @@ from django.core.paginator import Paginator, PageNotAnInteger
 from .models import Post,Like
 from django.contrib.auth import authenticate, get_user_model,login,logout
 from django.http import HttpResponse
-from ..accounts.form import PostForm,SharePostForm,LoginForm
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
 from django.urls import reverse
-from django.contrib.auth.models import User
+from .form import PostForm,SharePostForm
 # Create your views here.
 
 def post_list(request):
@@ -31,18 +31,23 @@ def post_list(request):
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
 
-    user_has_liked = False
+    if not request.session.session_key:
+        request.session.create()
 
-    if request.user.is_authenticated:
-        user_has_liked = Like.objects.filter(
-            user=request.user,
-            post=post
-        ).exists()
+    session_key = request.session.session_key
+
+    user_has_liked = Like.objects.filter(
+        session_key=session_key,
+        post=post
+    ).exists()
 
     return render(
         request,
         "post/post_detail.html",
-        {"post": post,"user_has_liked": user_has_liked,}
+        {
+            "post": post,
+            "user_has_liked": user_has_liked,
+        }
     )
 
 def post_create(request):
@@ -130,12 +135,12 @@ Read the post here:
         "post": post,
     })
 
+
+
 def user_detail(request, id):
     user = get_object_or_404(User,id=id)
     return render(request,"post/user_detail.html",{"user":user})
 
-
-
-
-def Logout(request):
-     ...
+def logout_view(request):
+     logout(request)
+     return redirect("post:post_list")
